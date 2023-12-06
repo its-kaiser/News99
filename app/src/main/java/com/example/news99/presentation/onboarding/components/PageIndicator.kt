@@ -11,9 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import com.example.news99.R
 import com.example.news99.presentation.Dimens.IndicatorSize
+import com.example.news99.ui.theme.BlueGray
 
 
 @Composable
@@ -22,14 +21,14 @@ fun PageIndicator(
     pageSize :Int,
     selectedPage:Int,
     selectedColor: Color = MaterialTheme.colorScheme.primary,
-    unSelectedColor: Color = colorResource(id = R.color.blue_gray)
+    unSelectedColor: Color = BlueGray
 ){
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         repeat(pageSize){page->
-            Box(modifier = modifier
+            Box(modifier = Modifier
                 .size(IndicatorSize)
                 .clip(CircleShape)
                 .background(
