@@ -1,44 +1,37 @@
 package com.example.news99
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.lifecycleScope
-import com.example.news99.domain.usecases.AppEntryUseCases
-import com.example.news99.presentation.onboarding.OnBoardingScreen
-import com.example.news99.presentation.onboarding.OnBoardingViewModel
+import com.example.news99.presentation.navigation.NavGraph
 import com.example.news99.ui.theme.News99Theme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var appEntryUseCases: AppEntryUseCases
+
+    val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
 
-        lifecycleScope.launch {
-            appEntryUseCases.readAppEntry().collect{
-                Log.d("Test",it.toString())
+        //splash screen will be visible until start destination has been fetched
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.splashCondition
             }
         }
+
         setContent {
             News99Theme {
                 Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    val viewModel:OnBoardingViewModel = hiltViewModel()
-                    OnBoardingScreen(
-                        viewModel::onEvent
-                    )
+                    val startDestination = viewModel.startDestination
+                    NavGraph(startDestination = startDestination)
                 }
             }
         }
