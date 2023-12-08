@@ -76,7 +76,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     //Compose Navigation
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
 
     //Retrofit

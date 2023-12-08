@@ -15,9 +15,9 @@ import com.example.news99.presentation.onboarding.OnBoardingViewModel
 fun NavGraph(
     startDestination: String
 ){
-    val naveController = rememberNavController()
+    val navController = rememberNavController()
     
-    NavHost(navController = naveController, startDestination = startDestination){
+    NavHost(navController = navController, startDestination = startDestination){
         navigation(
             route=Route.AppStartNavigation.route,
             startDestination = Route.OnBoardingScreen.route
@@ -25,15 +25,15 @@ fun NavGraph(
             composable(route= Route.OnBoardingScreen.route){
                 val viewModel: OnBoardingViewModel = hiltViewModel()
                 OnBoardingScreen(
-                    event = viewModel::onEvent
+                    onEvent = viewModel::onEvent
                 )
             }
         }
         navigation(
             route= Route.NewsNavigation.route,
-            startDestination = Route.HomeScreen.route
+            startDestination = Route.NewsNavigatorScreen.route
         ){
-            composable(route= Route.HomeScreen.route){
+            composable(route= Route.NewsNavigatorScreen.route){
                 Text(text = "News Navigator Screen")
             }
         }

@@ -1,11 +1,10 @@
 package com.example.news99
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news99.domain.usecases.AppEntryUseCases
+import com.example.news99.domain.usecases.appentry.AppEntryUseCases
 import com.example.news99.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -18,22 +17,22 @@ class MainViewModel @Inject constructor(
     private val appEntryUseCases: AppEntryUseCases
 ):ViewModel() {
 
-    var splashCondition by mutableStateOf(true)
-        private set
+    private val _splashCondition = mutableStateOf(true)
+    val splashCondition:State<Boolean> = _splashCondition
 
-    var startDestination  by mutableStateOf(Route.AppStartNavigation.route)
-        private set
+    private val _startDestination= mutableStateOf(Route.AppStartNavigation.route)
+    val startDestination: State<String> = _startDestination
 
     init {
         appEntryUseCases.readAppEntry().onEach { shouldStartFromHomeScreen->
             if(shouldStartFromHomeScreen){
-                startDestination= Route.NewsNavigation.route
+                _startDestination.value= Route.NewsNavigation.route
             }
             else{
-                startDestination = Route.AppStartNavigation.route
+                _startDestination.value = Route.AppStartNavigation.route
             }
-            delay(300)
-            splashCondition = false
+            delay(200)
+            _splashCondition.value = false
         }.launchIn(viewModelScope)
     }
 }

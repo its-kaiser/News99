@@ -3,9 +3,9 @@ package com.example.news99.di
 import android.app.Application
 import com.example.news99.data.manager.LocalUserManagerImplementation
 import com.example.news99.domain.manager.LocalUserManager
-import com.example.news99.domain.usecases.AppEntryUseCases
-import com.example.news99.domain.usecases.ReadAppEntry
-import com.example.news99.domain.usecases.SaveAppEntry
+import com.example.news99.domain.usecases.appentry.AppEntryUseCases
+import com.example.news99.domain.usecases.appentry.ReadAppEntry
+import com.example.news99.domain.usecases.appentry.SaveAppEntry
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ object AppModule {
     @Singleton
     fun provideAppEntryUSeCases(
         localUserManager: LocalUserManager
-    ):AppEntryUseCases = AppEntryUseCases(
+    ): AppEntryUseCases = AppEntryUseCases(
         readAppEntry = ReadAppEntry(localUserManager),
         saveAppEntry = SaveAppEntry(localUserManager)
     )
