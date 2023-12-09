@@ -61,7 +61,7 @@ fun DetailsScreen(
                        }
                    }
             },
-            onFavouriteClick = { event(DetailsEvent.UpsertDeleteArticle) },
+            onFavouriteClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
             //TODO:1
             onBackClick = {}
         )
