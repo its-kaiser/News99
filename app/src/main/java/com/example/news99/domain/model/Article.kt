@@ -1,5 +1,9 @@
 package com.example.news99.domain.model
 
+import androidx.room.Entity
+
+
+@Entity
 data class Article(
     val author: String,
     val content: String,
