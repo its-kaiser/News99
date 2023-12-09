@@ -19,10 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     //private val viewModel by viewModels<MainViewModel>()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
         //splash screen will be visible until start destination has been fetched
         installSplashScreen()
             //.apply {

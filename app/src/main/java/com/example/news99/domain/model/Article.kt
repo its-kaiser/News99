@@ -1,6 +1,7 @@
 package com.example.news99.domain.model
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 
 @Entity
@@ -11,6 +12,6 @@ data class Article(
     val publishedAt: String,
     val source: Source,
     val title: String,
-    val url: String,
+    @PrimaryKey val url: String,
     val urlToImage: String
 )
