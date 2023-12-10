@@ -13,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.news99.R
+import com.example.news99.domain.model.Article
 import com.example.news99.presentation.Dimens.MediumPadding1
-import com.example.news99.presentation.navigation.Route
 import com.example.news99.presentation.shared.ArticlesList
 
 
 @Composable
 fun FavouriteScreen(
     state: FavouriteState,
-    navigate: (String)->Unit
+    navigateToDetails: (Article)->Unit
 ){
     Column (
         modifier = Modifier
@@ -42,6 +42,6 @@ fun FavouriteScreen(
         
         Spacer(modifier = Modifier.height(MediumPadding1))
 
-        ArticlesList(articles = state.articles, onClick = {navigate(Route.DetailsScreen.route)})
+        ArticlesList(articles = state.articles, onClick = {navigateToDetails(it)})
     }
 }

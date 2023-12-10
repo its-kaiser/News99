@@ -9,9 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.news99.presentation.favourite.FavouriteScreen
-import com.example.news99.presentation.favourite.FavouriteViewModel
+import com.example.news99.presentation.news_navigator.NewsNavigator
 import com.example.news99.ui.theme.News99Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,20 +38,7 @@ class MainActivity : ComponentActivity() {
                     //val startDestination = viewModel.startDestination.value
                     //NavGraph(startDestination = startDestination)
 
-                    /*Home screen
-                    val viewModel: HomeViewModel = hiltViewModel()
-                    val articles = viewModel.news.collectAsLazyPagingItems()
-                    HomeScreen(articles = articles, navigate = {})*/
-
-                    /*Search screen
-                    val viewModel :SearchViewModel = hiltViewModel()
-                    SearchScreen(state = viewModel.state.value,
-                        event = viewModel::onEvent,
-                        navigate ={}
-                    )*/
-
-                    val viewModel :FavouriteViewModel = hiltViewModel()
-                    FavouriteScreen(state = viewModel.state.value, navigate = {})
+                    NewsNavigator()
                 }
             }
         }

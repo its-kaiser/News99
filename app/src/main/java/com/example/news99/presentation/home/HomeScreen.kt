@@ -25,7 +25,6 @@ import androidx.paging.compose.LazyPagingItems
 import com.example.news99.R
 import com.example.news99.domain.model.Article
 import com.example.news99.presentation.Dimens.MediumPadding1
-import com.example.news99.presentation.navigation.Route
 import com.example.news99.presentation.shared.ArticlesList
 import com.example.news99.presentation.shared.SearchBar
 
@@ -33,7 +32,8 @@ import com.example.news99.presentation.shared.SearchBar
 @Composable
 fun  HomeScreen(
     articles:LazyPagingItems<Article>,
-    navigate:(String)->Unit
+    navigateToSearch:()->Unit,
+    navigateToDetails:(Article)->Unit
 ){
     val titles by remember {
         derivedStateOf {
@@ -69,7 +69,7 @@ fun  HomeScreen(
             readOnly = true,
             onValueChange = {},
             onCLick = {
-                      navigate(Route.SearchScreen.route)
+                      navigateToSearch()
             },
             onSearch = { },
             modifier = Modifier.padding(horizontal = MediumPadding1)
@@ -92,7 +92,7 @@ fun  HomeScreen(
         ArticlesList(
             articles = articles,
             onClick = {
-                navigate(Route.DetailsScreen .route)
+                navigateToDetails(it)
             },
             modifier = Modifier.padding(horizontal = MediumPadding1)
         )
