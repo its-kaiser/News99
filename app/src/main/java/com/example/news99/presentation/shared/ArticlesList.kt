@@ -3,14 +3,20 @@ package com.example.news99.presentation.shared
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.news99.domain.model.Article
+import com.example.news99.presentation.Dimens.ExtraSmallPadding1
 import com.example.news99.presentation.Dimens.ExtraSmallPadding2
 import com.example.news99.presentation.Dimens.MediumPadding1
 
@@ -56,6 +62,11 @@ fun ArticlesList(
                 articles[it]?.let {
                     ArticleCard(article = it, onClick = { onClick(it) })
                 }
+                Spacer(modifier = Modifier.height(ExtraSmallPadding1))
+                Divider(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

@@ -10,9 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import com.example.news99.R
 import com.example.news99.domain.model.Article
 import com.example.news99.presentation.Dimens.MediumPadding1
 import com.example.news99.presentation.shared.ArticlesList
@@ -36,8 +34,8 @@ fun FavouriteScreen(
 
         Text(
             text = "Favourite",
-            style = MaterialTheme.typography.displayMedium.copy(fontWeight = FontWeight.Bold),
-            color = colorResource(id = R.color.text_title)
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onBackground
         )
         
         Spacer(modifier = Modifier.height(MediumPadding1))

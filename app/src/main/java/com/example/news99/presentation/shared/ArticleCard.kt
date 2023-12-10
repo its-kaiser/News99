@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +35,8 @@ import com.example.news99.presentation.Dimens.ExtraSmallPadding1
 import com.example.news99.presentation.Dimens.ExtraSmallPadding2
 import com.example.news99.presentation.Dimens.SmallIconSize
 import com.example.news99.ui.theme.News99Theme
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @Composable
@@ -44,58 +47,65 @@ fun ArticleCard(
 ){
 
     val context = LocalContext.current
-    Row(modifier = modifier.clickable { onClick() }) {
+    Surface(
+        modifier= Modifier,
+        color =MaterialTheme.colorScheme.surfaceVariant
+    ) {
 
-        AsyncImage(
-            model = ImageRequest
-                .Builder(context)
-                .data(article.urlToImage)
-                .build(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(ArticleCardSize)
-                .clip(MaterialTheme.shapes.medium)
-        )
+        Row(modifier = modifier.clickable { onClick() }) {
 
-        Column (
-            verticalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .padding(horizontal = ExtraSmallPadding1)
-                .height(ArticleCardSize)
-        ){
-            
-            Text(
-                text = article.title,
-                style = MaterialTheme.typography.bodyMedium,
-                color =  colorResource(id = R.color.text_title),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis)
+            AsyncImage(
+                model = ImageRequest
+                    .Builder(context)
+                    .data(article.urlToImage)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(ArticleCardSize)
+                    .clip(MaterialTheme.shapes.medium)
+            )
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                verticalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier
+                    .padding(horizontal = ExtraSmallPadding1)
+                    .height(ArticleCardSize)
+            ) {
 
                 Text(
-                    text = article.source.name,
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color =  colorResource(id = R.color.body)
+                    text = article.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = colorResource(id = R.color.text_title),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(modifier = Modifier.width(ExtraSmallPadding2))
-                
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_time),
-                    contentDescription =null,
-                    modifier = Modifier.size(SmallIconSize),
-                    tint = colorResource(id = R.color.body)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
 
-                Spacer(modifier = Modifier.width(ExtraSmallPadding2))
+                    Text(
+                        text = article.source.name,
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
 
-                Text(
-                    text = article.publishedAt,
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color =  colorResource(id = R.color.body)
-                )
+                    Spacer(modifier = Modifier.width(ExtraSmallPadding2))
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_time),
+                        contentDescription = null,
+                        modifier = Modifier.size(SmallIconSize),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Spacer(modifier = Modifier.width(ExtraSmallPadding2))
+
+                    Text(
+                        text = getDate(article.publishedAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
@@ -118,4 +128,15 @@ fun ArticleCardPreview(){
         )) {
         }
     }
+}
+
+
+private fun getDate(date: String): String {
+
+    val simpleFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+    val simpleDate = simpleFormatter.parse(date)
+
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+
+    return formatter.format(simpleDate)
 }

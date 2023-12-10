@@ -1,15 +1,19 @@
 package com.example.news99.presentation.shared
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,13 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.news99.R
-import com.example.news99.presentation.Dimens.IconSize
 import com.example.news99.ui.theme.News99Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +52,7 @@ fun SearchBar(
         }
     }
 
-    Box(modifier = modifier){
+    Box(modifier = modifier.background(MaterialTheme.colorScheme.background)){
         
         TextField(
             value = text,
@@ -60,20 +60,21 @@ fun SearchBar(
             readOnly= readOnly,
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_search ),
+                    imageVector = Icons.Default.Search,
                     contentDescription = null,
-                    modifier=Modifier.size(IconSize),
-                    tint = colorResource(id = R.color.body))
+                    modifier=Modifier.padding(16.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant)
             },
             placeholder = {
                           Text(
                               text ="Search",
-                              style =MaterialTheme.typography.bodySmall,
-                              color = colorResource(id = R.color.placeholder))
+                              style =MaterialTheme.typography.bodyMedium,
+                              color =MaterialTheme.colorScheme.onSurfaceVariant
+                          )
             },
-            shape = MaterialTheme.shapes.medium,
+            shape = CircleShape,
             colors = TextFieldDefaults.textFieldColors(
-                containerColor =  colorResource(id = R.color.input_background),
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 textColor = if(isSystemInDarkTheme()) Color.White else Color.Black,
                 cursorColor = if(isSystemInDarkTheme()) Color.White else Color.Black,
                 disabledIndicatorColor = Color.Transparent,
@@ -101,7 +102,7 @@ fun Modifier.searchBarBorder()=composed {
         border(
             width=1.dp,
             color = Color.Black,
-            shape = MaterialTheme.shapes.medium
+            shape = CircleShape
         )
     }
     else{
@@ -114,8 +115,11 @@ fun Modifier.searchBarBorder()=composed {
 @Composable
 fun SearchBarPreview(){
     News99Theme {
-        SearchBar(text = "", readOnly = false, onValueChange = {}) {
-            
+        Box(modifier = Modifier.background(MaterialTheme.colorScheme.background))
+        {
+            SearchBar(text = "", readOnly = false, onValueChange = {}) {
+
+            }
         }
     }
 }
