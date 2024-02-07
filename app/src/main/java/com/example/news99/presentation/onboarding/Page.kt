@@ -11,18 +11,18 @@ data class Page(
 
 val pages = listOf(
     Page(
-        "lorem ipsum is a dummy",
-        "baka baka dummy dummy for the news99",
-        R.drawable.onboarding1
+        "Timely Insights, Timeless Class",
+        "Elevate Your Awareness with Instant News",
+        R.drawable.onboard1
     ),
     Page(
-        "lorem ipsum is a dummy",
-        "baka baka dummy dummy for the news99",
-        R.drawable.onboarding2
+        "Unraveling Markets",
+        " Navigating the Ebb and Flow of Stocks – Stay Informed, Invest Smart.",
+        R.drawable.onboard2
     ),
     Page(
-        "lorem ipsum is a dummy",
-        "baka baka dummy dummy for the news99",
-        R.drawable.onboarding3
+        "Elevate Your Sporting Insight",
+        "Where Every Score, Triumph, and Defeat Finds Its Spotlight in Sports News Excellence!",
+        R.drawable.onboard3
     )
 )

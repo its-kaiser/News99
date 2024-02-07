@@ -48,8 +48,6 @@ fun  HomeScreen(
         .padding(top = MediumPadding1)
         .statusBarsPadding()
     ) {
-        Spacer(modifier = Modifier.height(MediumPadding1))
-        
         SearchBar(
             text = "",
             readOnly = true,
