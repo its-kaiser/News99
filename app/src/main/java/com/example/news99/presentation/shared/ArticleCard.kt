@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,91 +40,88 @@ import java.util.Locale
 
 @Composable
 fun ArticleCard(
-    modifier: Modifier= Modifier,
-    article:Article,
-    onClick: ()->Unit
-){
+    modifier: Modifier = Modifier,
+    article: Article,
+    onClick: () -> Unit
+) {
 
     val context = LocalContext.current
-    Surface(
-        modifier= Modifier,
-        color =MaterialTheme.colorScheme.surfaceVariant
-    ) {
+    Row(modifier = modifier.clickable { onClick() }) {
 
-        Row(modifier = modifier.clickable { onClick() }) {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context)
+                .data(article.urlToImage)
+                .build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(ArticleCardSize)
+                .clip(MaterialTheme.shapes.medium)
+        )
 
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context)
-                    .data(article.urlToImage)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(ArticleCardSize)
-                    .clip(MaterialTheme.shapes.medium)
+        Column(
+            verticalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .padding(horizontal = ExtraSmallPadding1)
+                .height(ArticleCardSize)
+        ) {
+
+            Text(
+                text = article.title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = colorResource(id = R.color.text_title),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
-            Column(
-                verticalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .padding(horizontal = ExtraSmallPadding1)
-                    .height(ArticleCardSize)
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
 
                 Text(
-                    text = article.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(id = R.color.text_title),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    text = article.source.name,
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                    color = colorResource(id =R.color.body)
                 )
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.width(ExtraSmallPadding2))
 
-                    Text(
-                        text = article.source.name,
-                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_time),
+                    contentDescription = null,
+                    modifier = Modifier.size(SmallIconSize),
+                    tint =  colorResource(id =R.color.body)
+                )
 
-                    Spacer(modifier = Modifier.width(ExtraSmallPadding2))
+                Spacer(modifier = Modifier.width(ExtraSmallPadding2))
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_time),
-                        contentDescription = null,
-                        modifier = Modifier.size(SmallIconSize),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-
-                    Spacer(modifier = Modifier.width(ExtraSmallPadding2))
-
-                    Text(
-                        text = getDate(article.publishedAt),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Text(
+                    text = getDate(article.publishedAt),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = colorResource(id =R.color.body)
+                )
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun ArticleCardPreview(){
+fun ArticleCardPreview() {
     News99Theme {
-        ArticleCard(article = Article(
-            author = "",
-            content = "",
-            description = "",
-            publishedAt = "2 hours",
-            source = Source(id="", name = "BBC"),
-            title = "there once was a boy mad enough to kill people for fun.",
-            url="",
-            urlToImage = ""
-        )) {
+        ArticleCard(
+            article = Article(
+                author = "",
+                content = "",
+                description = "",
+                publishedAt = "2 hours",
+                source = Source(id = "", name = "BBC"),
+                title = "there once was a boy mad enough to kill people for fun.",
+                url = "",
+                urlToImage = ""
+            )
+        ) {
         }
     }
 }
