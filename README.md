@@ -15,10 +15,10 @@ News99 is an android news application built with Jetpack compose and the latest 
 <h2>Dark theme</h2>
 <img src = "https://github.com/its-kaiser/News99/assets/53334151/74058a4a-6ae8-4019-8ff1-5a8353f1d4e3" width ="250px" height = "500px">
 <img src = "https://github.com/its-kaiser/News99/assets/53334151/88b5a99a-5442-4d46-9b46-366b87690b27" width ="250px" height = "500px">
-<img src = "https://github.com/its-kaiser/News99/assets/53334151/49e20f7d-9a5f-485a-b672-2402d35a13d2" width ="250px" height = "500px">
-<img src = "https://github.com/its-kaiser/News99/assets/53334151/37b78a3c-3361-441b-812d-36fbd28b9bb1" width ="250px" height = "500px">
-<img src = "https://github.com/its-kaiser/News99/assets/53334151/60a3a4b8-d0d8-4d1c-b84f-033c80fc0041" width ="250px" height = "500px">
-<img src = "https://github.com/its-kaiser/News99/assets/53334151/64268438-58e9-471c-8bc2-899b2e071019" width ="250px" height = "500px">
+<img src = "https://github.com/its-kaiser/News99/assets/53334151/693d3421-855c-4abb-88d6-05f936885e92" width ="250px" height = "500px">
+<img src = "https://github.com/its-kaiser/News99/assets/53334151/96497691-6506-46e5-b630-7bdb5c2f085b" width ="250px" height = "500px">
+<img src = "https://github.com/its-kaiser/News99/assets/53334151/7e1ddf6e-8b05-4e0e-873b-46d8693da224" width ="250px" height = "500px">
+<img src = "https://github.com/its-kaiser/News99/assets/53334151/0e6b1f2a-c4fd-4310-ba3c-1f27ad705e11" width ="250px" height = "500px">
 
 
 ## Tech stack & Open-source libraries
