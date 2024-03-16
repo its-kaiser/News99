@@ -43,7 +43,7 @@ fun NewsNavigator(){
         listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = "Home"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Home"),
-            BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Favourites")
+            BottomNavigationItem(icon = R.drawable.ic_favourite, text = "Favourites")
         )
     }
 
