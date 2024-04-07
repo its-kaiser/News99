@@ -3,30 +3,19 @@ package com.example.news99.presentation.details
 import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.Uri
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.news99.R
+import androidx.compose.ui.viewinterop.AndroidView
 import com.example.news99.domain.model.Article
 import com.example.news99.domain.model.Source
-import com.example.news99.presentation.Dimens.ArticleImageHeight
-import com.example.news99.presentation.Dimens.MediumPadding1
 import com.example.news99.presentation.details.components.DetailsTopBar
 import com.example.news99.ui.theme.News99Theme
 
@@ -34,74 +23,55 @@ import com.example.news99.ui.theme.News99Theme
 @Composable
 fun DetailsScreen(
     article: Article,
-    event:(DetailsEvent)->Unit,
-    navigateUp:()->Unit
-){
+    event: (DetailsEvent) -> Unit,
+    navigateUp: () -> Unit
+) {
 
-    val context =LocalContext.current
+    val context = LocalContext.current
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .statusBarsPadding()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
     ) {
         DetailsTopBar(
             onBrowsingClick = {
-                  Intent (Intent.ACTION_VIEW).also {
-                      it.data= Uri.parse(article.url)
-                      if(it.resolveActivity(context.packageManager)!=null){
-                          context.startActivity(it)
-                      }
-                  }
+                Intent(Intent.ACTION_VIEW).also {
+                    it.data = Uri.parse(article.url)
+                    if (it.resolveActivity(context.packageManager) != null) {
+                        context.startActivity(it)
+                    }
+                }
             },
             onShareClick = {
-                   Intent(Intent.ACTION_SEND).also {
-                       it.putExtra(Intent.EXTRA_TEXT,article.url)
-                       it.type= "text/plain"
-                       if(it.resolveActivity(context.packageManager)!=null){
-                           context.startActivity(it)
-                       }
-                   }
+                Intent(Intent.ACTION_SEND).also {
+                    it.putExtra(Intent.EXTRA_TEXT, article.url)
+                    it.type = "text/plain"
+                    if (it.resolveActivity(context.packageManager) != null) {
+                        context.startActivity(it)
+                    }
+                }
             },
             onFavouriteClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
             onBackClick = navigateUp
         )
 
-        LazyColumn(
-            modifier= Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(
-                start = MediumPadding1,
-                end= MediumPadding1,
-                top= MediumPadding1
-            )
-        ){
-            item{
-                AsyncImage(
-                    model = ImageRequest
-                        .Builder(context = context)
-                        .data(article.urlToImage)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(ArticleImageHeight)
-                        .clip(MaterialTheme.shapes.medium),
-                    contentScale = ContentScale.Crop
-                )
 
-                Spacer(modifier= Modifier.height(MediumPadding1))
-                
-                Text(
-                    text = article.title,
-                    style = MaterialTheme.typography.displaySmall,
-                )
-
-                Text(
-                    text = article.content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(id = R.color.body)
-                )
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    webViewClient = WebViewClient()
+                    loadUrl(article.url)
+                }
+            },
+            update = { webView ->
+                webView.loadUrl(article.url)
             }
-        }
+        )
     }
 }
 
@@ -109,7 +79,7 @@ fun DetailsScreen(
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun DetailsScreenPreview(){
+fun DetailsScreenPreview() {
     News99Theme {
         DetailsScreen(
             article = Article(
@@ -123,7 +93,7 @@ fun DetailsScreenPreview(){
                 ),
                 url = "https://consent.google.com/ml?continue=https://news.google.com/rss/articles/CBMiaWh0dHBzOi8vY3J5cHRvc2F1cnVzLnRlY2gvY29pbmJhc2Utc2F5cy1hcHBsZS1ibG9ja2VkLWl0cy1sYXN0LWFwcC1yZWxlYXNlLW9uLW5mdHMtaW4td2FsbGV0LXJldXRlcnMtY29tL9IBAA?oc%3D5&gl=FR&hl=en-US&cm=2&pc=n&src=1",
                 urlToImage = "https://media.wired.com/photos/6495d5e893ba5cd8bbdc95af/191:100/w_1280,c_limit/The-EU-Rules-Phone-Batteries-Must-Be-Replaceable-Gear-2BE6PRN.jpg"
-            ) ,
+            ),
             event = {},
             navigateUp = {})
     }

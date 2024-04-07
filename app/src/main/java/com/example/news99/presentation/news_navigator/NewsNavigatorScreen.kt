@@ -120,7 +120,8 @@ fun NewsNavigator(){
 
                         navigateToDetails(
                             navController=navController,
-                            article=article)
+                            article = article
+                        )
                     }
                 )
             }
@@ -204,3 +205,4 @@ private fun navigateToDetails(
         route = Route.DetailsScreen.route
     )
 }
+
