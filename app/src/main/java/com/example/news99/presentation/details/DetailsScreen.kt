@@ -6,11 +6,16 @@ import android.net.Uri
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
@@ -20,6 +25,7 @@ import com.example.news99.presentation.details.components.DetailsTopBar
 import com.example.news99.ui.theme.News99Theme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
     article: Article,
@@ -28,50 +34,61 @@ fun DetailsScreen(
 ) {
 
     val context = LocalContext.current
-
-    Column(
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold (
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-    ) {
-        DetailsTopBar(
-            onBrowsingClick = {
-                Intent(Intent.ACTION_VIEW).also {
-                    it.data = Uri.parse(article.url)
-                    if (it.resolveActivity(context.packageManager) != null) {
-                        context.startActivity(it)
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            DetailsTopBar(
+                onBrowsingClick = {
+                    Intent(Intent.ACTION_VIEW).also {
+                        it.data = Uri.parse(article.url)
+                        if (it.resolveActivity(context.packageManager) != null) {
+                            context.startActivity(it)
+                        }
                     }
-                }
-            },
-            onShareClick = {
-                Intent(Intent.ACTION_SEND).also {
-                    it.putExtra(Intent.EXTRA_TEXT, article.url)
-                    it.type = "text/plain"
-                    if (it.resolveActivity(context.packageManager) != null) {
-                        context.startActivity(it)
+                },
+                onShareClick = {
+                    Intent(Intent.ACTION_SEND).also {
+                        it.putExtra(Intent.EXTRA_TEXT, article.url)
+                        it.type = "text/plain"
+                        if (it.resolveActivity(context.packageManager) != null) {
+                            context.startActivity(it)
+                        }
                     }
-                }
-            },
-            onFavouriteClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
-            onBackClick = navigateUp
-        )
+                },
+                onFavouriteClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
+                onBackClick = navigateUp,
+                scrollBehavior = scrollBehavior
+            )
 
-
-        AndroidView(
-            factory = { context ->
-                WebView(context).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
-                    webViewClient = WebViewClient()
-                    loadUrl(article.url)
-                }
-            },
-            update = { webView ->
-                webView.loadUrl(article.url)
+        }
+    ){paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            item {
+                AndroidView(
+                    factory = { context ->
+                        WebView(context).apply {
+                            layoutParams = ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT
+                            )
+                            webViewClient = WebViewClient()
+                            loadUrl(article.url)
+                        }
+                    },
+                    update = { webView ->
+                        webView.loadUrl(article.url)
+                    }
+                )
             }
-        )
+        }
     }
 }
 
